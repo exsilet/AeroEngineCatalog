@@ -1,11 +1,13 @@
+using System.Linq.Expressions;
 using AeroEngineCatalog.Models;
 
 namespace AeroEngineCatalog.Interfaces;
 
-public interface IPartRepository
+public interface IPartRepository: IRepository<EnginePart>
 {
-    IEnumerable<EnginePart> GetAll();
-    EnginePart? GetById(int id);
-    void Add(EnginePart part);
-    IEnumerable<EnginePart> GetByMaterial(string material);
+    Task<IEnumerable<EnginePart>> GetByMaterialAsync(MaterialType material);
+    Task<IEnumerable<EnginePart>> GetHeavierThanAsync(double minMass);
+    Task<IEnumerable<EnginePart>> GetLighterThanAsync(double maxMass);
+    Task<double> GetTotalMassAsync();
+    Task<double> CalculateTotalMassAsync(IEnumerable<int> partIds);
 }
